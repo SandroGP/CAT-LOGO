@@ -1,0 +1,189 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#2b3fc2"><link rel="manifest" href="manifest.json"><link rel="icon" href="icon-192.png"><title>Novedades Wiliam's · Captura</title>
+<style>
+:root{--az:#2b3fc2;--mo:#7b2f94;--am:#f7c52b;--tx:#1d1b2e;--bg:#f5f4fa;--ok:#1b8a4b;--er:#c62828}
+*{box-sizing:border-box}body{margin:0;font:16px/1.4 system-ui,sans-serif;color:var(--tx);background:var(--bg);padding-bottom:76px}
+header{background:linear-gradient(135deg,var(--mo),var(--az));color:#fff;padding:10px 14px;display:flex;gap:12px;align-items:center}
+header img{width:46px;height:46px;border-radius:10px}header b{display:block;font-size:17px}header small{opacity:.85}
+main{padding:14px;max-width:560px;margin:auto}.card{background:#fff;border-radius:14px;padding:14px;margin-bottom:12px;box-shadow:0 1px 4px #0002}
+label{display:block;font-weight:600;font-size:14px;margin:10px 0 4px}
+input,select{width:100%;padding:12px;border:1.5px solid #cfcde0;border-radius:10px;font-size:17px;background:#fff}
+input:focus,select:focus,button:focus-visible{outline:3px solid var(--am)}
+.row{display:flex;gap:8px}.row>*{flex:1}.row .fit{flex:0 0 auto}
+button,.btn{border:0;border-radius:12px;padding:14px;font-size:17px;font-weight:700;background:var(--az);color:#fff;width:100%;display:block;text-align:center;cursor:pointer}
+button.sec,.btn.sec{background:#e6e4f2;color:var(--tx)}button.dng{background:var(--er)}button.sm{padding:8px 12px;font-size:14px;width:auto}
+.big{background:var(--am);color:#2a2100;padding:26px;font-size:21px}
+#prev{width:100%;max-height:60vh;object-fit:contain;background:#fff;border-radius:10px;border:1px solid #ddd}
+nav{position:fixed;bottom:0;left:0;right:0;display:flex;background:#fff;border-top:1px solid #ddd}
+nav button{background:none;color:#666;border-radius:0;padding:14px 4px;font-size:15px}nav button.on{color:var(--az);box-shadow:inset 0 3px var(--az)}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.it{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 1px 4px #0002;cursor:pointer}
+.it img{width:100%;aspect-ratio:1;object-fit:contain;display:block;background:#fff}.it div{padding:8px;font-size:14px}.it b{display:block}
+.tag{font-size:12px;padding:2px 8px;border-radius:99px;background:#fff3c4}.tag.er{background:#ffd9d9}
+.ths{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}.ths span{position:relative}.ths img{width:58px;height:58px;object-fit:cover;border-radius:8px;border:1px solid #ddd;display:block}
+.ths b{position:absolute;top:-6px;right:-6px;background:var(--er);color:#fff;border-radius:99px;width:22px;height:22px;text-align:center;font-size:13px;line-height:22px}
+.opt{font-weight:400;display:flex;gap:8px;align-items:center}.opt input{width:auto}
+dialog{border:0;border-radius:16px;padding:14px;width:min(94vw,520px);max-height:92vh}dialog::backdrop{background:#0008}
+.hide{display:none}#msg{position:fixed;left:50%;top:14px;transform:translateX(-50%);background:#222;color:#fff;padding:10px 16px;border-radius:99px;z-index:99;font-size:15px}
+</style></head><body>
+<header><img src="logo.png" alt=""><div><b>NOVEDADES WILIAM'S</b><small id="stat">Cargando…</small></div></header>
+<main>
+<section id="t-cap">
+ <label class="btn big" for="cam">📷 Tomar foto</label>
+ <input id="cam" type="file" accept="image/*" capture="environment" class="hide">
+ <label class="btn sec" for="gal" style="margin-top:8px;padding:10px;font-size:15px">Elegir de la galería</label>
+ <input id="gal" type="file" accept="image/*" class="hide">
+ <form id="f" class="card hide" style="margin-top:12px">
+  <img id="prev" alt="Vista previa">
+  <div class="ths" id="xt"></div>
+  <label class="btn sec" for="xin" style="padding:9px;font-size:14px;margin:0">➕ Otra foto del producto (opcional)</label><input id="xin" type="file" accept="image/*" class="hide">
+  <label for="nm">Nombre del producto</label><input id="nm" autocomplete="off" required>
+  <label for="cd">Código interno (opcional)</label><input id="cd" autocomplete="off">
+  <div class="row"><div><label for="pu">Precio unidad (S/)</label><input id="pu" type="number" inputmode="decimal" step="0.01" min="0" required></div>
+  <div><label for="pm">Por mayor, c/u (S/)</label><input id="pm" type="number" inputmode="decimal" step="0.01" min="0" required></div></div>
+  <label class="opt" style="margin-top:12px"><input id="bx" type="checkbox"> Se vende también por caja / cajón</label>
+  <div id="bxf" class="row hide"><div><label for="bp">Precio caja (S/)</label><input id="bp" type="number" inputmode="decimal" step="0.01" min="0"></div><div><label for="bu">Unidades por caja</label><input id="bu" type="number" inputmode="numeric" min="1"></div></div>
+  <label for="or">Orientación de la foto</label><select id="or"><option value="vertical">▯ Vertical</option><option value="horizontal">▭ Horizontal</option></select>
+  <label for="ct">Categoría</label><div class="row"><select id="ct"></select><button type="button" id="addc" class="sec fit">+ Nueva</button></div>
+  <label class="opt"><input id="auto" type="checkbox" checked> Abrir la cámara al guardar</label>
+  <div class="row" style="margin-top:10px"><button type="button" id="cx" class="sec">Descartar</button><button>Guardar</button></div>
+ </form>
+</section>
+<section id="t-lst" class="hide">
+ <input id="q" type="search" placeholder="Buscar por nombre o código…"><select id="fc" style="margin:8px 0"></select>
+ <div id="g" class="grid"></div><button id="more" class="sec hide" style="margin-top:10px">Ver más</button>
+</section>
+<section id="t-set" class="hide">
+ <div class="card"><b>Descuento por mayor</b><p style="margin:4px 0 8px;font-size:14px">Se usa para calcular el precio por mayor de cada unidad (unidad − descuento). Siempre puedes corregirlo.</p><div class="row"><input id="dc" type="number" min="0" max="90"><span class="fit" style="align-self:center">%</span></div></div>
+ <div class="card"><b>Categorías</b><div id="cl"></div><div class="row" style="margin-top:8px"><input id="nc" placeholder="Nueva categoría"><button id="ac" class="fit sm">Agregar</button></div></div>
+ <div class="card"><b>☁️ Nube</b><div id="cloud"></div></div>
+ <div class="card"><b>Respaldo</b><p style="margin:4px 0 8px;font-size:14px">Descarga una copia de todo (fotos incluidas) y guárdala en un lugar seguro.</p><button id="ex" class="sec">Descargar respaldo</button><label class="btn sec" for="im" style="margin-top:8px">Restaurar respaldo</label><input id="im" type="file" accept=".json" class="hide"></div>
+ <div class="card" style="font-size:14px"><b>NOVEDADES WILIAM'S</b><br>Venta al por mayor y menor de artículos de temporada<br>Jr. Teniente Clavero N° 283 A · Jr. Teniente Clavero N° 275<br>Ucayali - Coronel Portillo - Callería</div>
+</section>
+</main>
+<dialog id="ed"><form id="ef"><img id="eimg" style="width:100%;max-height:45vh;object-fit:contain;border:1px solid #ddd;border-radius:10px" alt=""><div class="ths" id="eth"></div><div id="est"></div>
+ <label for="en">Nombre</label><input id="en" required>
+ <label for="ek">Código interno (opcional)</label><input id="ek" autocomplete="off">
+ <div class="row"><div><label for="eu">Unidad (S/)</label><input id="eu" type="number" inputmode="decimal" step="0.01" required></div><div><label for="em">Por mayor, c/u (S/)</label><input id="em" type="number" inputmode="decimal" step="0.01" required></div></div>
+ <label class="opt" style="margin-top:12px"><input id="ebx" type="checkbox"> Se vende también por caja / cajón</label>
+ <div id="ebf" class="row hide"><div><label for="ebp">Precio caja (S/)</label><input id="ebp" type="number" inputmode="decimal" step="0.01" min="0"></div><div><label for="ebu">Unidades por caja</label><input id="ebu" type="number" inputmode="numeric" min="1"></div></div>
+ <label for="ec">Categoría</label><select id="ec"></select>
+ <label class="btn sec" for="ef2" style="margin-top:10px;padding:10px;font-size:15px">Cambiar foto principal</label><input id="ef2" type="file" accept="image/*" capture="environment" class="hide">
+ <label class="btn sec" for="ef3" style="margin-top:8px;padding:10px;font-size:15px">➕ Agregar otra foto</label><input id="ef3" type="file" accept="image/*" class="hide">
+ <button type="button" id="ex2" class="sec hide" style="margin-top:8px;padding:10px;font-size:15px">Quitar fotos extra</button>
+ <div class="row" style="margin-top:10px"><button type="button" id="edl" class="dng">Eliminar</button><button type="button" id="ecl" class="sec">Cerrar</button><button>Guardar</button></div></form></dialog>
+<nav><button data-t="cap" class="on">📷 Capturar</button><button data-t="lst">📋 Productos</button><button data-t="set">⚙️ Ajustes</button></nav>
+<script>
+const $=s=>document.querySelector(s);let db,cfg=Object.assign({cats:['General'],disc:10,last:'General',ori:'vertical',del:[]},JSON.parse(localStorage.cfg||'{}'));
+const sv=()=>localStorage.cfg=JSON.stringify(cfg);
+const op=()=>new Promise((a,b)=>{const r=indexedDB.open('catalogo',1);r.onupgradeneeded=()=>r.result.createObjectStore('p',{keyPath:'id',autoIncrement:true});r.onsuccess=()=>a(r.result);r.onerror=()=>b(r.error)});
+const tx=(m,f)=>new Promise((a,b)=>{const t=db.transaction('p',m),o=f(t.objectStore('p'));t.oncomplete=()=>a(o.result);t.onerror=()=>b(t.error)});
+const put=p=>tx('readwrite',s=>s.put(p)),del=i=>tx('readwrite',s=>s.delete(i)),all=()=>tx('readonly',s=>s.getAll()),get=i=>tx('readonly',s=>s.get(i));
+const msg=t=>{let e=$('#msg')||document.body.appendChild(Object.assign(document.createElement('div'),{id:'msg'}));e.textContent=t;e.hidden=false;clearTimeout(msg.t);msg.t=setTimeout(()=>e.hidden=true,2500)};
+const r2=n=>Math.round(n*100)/100,esc=s=>String(s??'').replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const pend=p=>(p.raws||[]).some(Boolean);
+// compatibilidad con productos guardados antes de esta versión
+function mig(p){if(p.imgs)return p;p.imgs=p.img?[p.img]:[];p.raws=p.raw?[p.raw]:[];delete p.img;delete p.raw;p.ori=p.ori||'vertical';p.code=p.code||'';p.paths=p.path?[p.path]:[];delete p.path;if(p.pm==null){p.pm=r2(p.pd/12);p.dirty=p.status=='done'}delete p.pd;if(p.status=='error')p.status='error';return p}
+// pestañas
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('on',x==b));['cap','lst','set'].forEach(t=>$('#t-'+t).classList.toggle('hide',t!=b.dataset.t));if(b.dataset.t=='lst')render(true);if(b.dataset.t=='set')cats()});
+// categorías
+function fillCats(sel,v,extra){sel.innerHTML=(extra?'<option value="">Todas las categorías</option>':'')+cfg.cats.map(c=>`<option>${esc(c)}</option>`).join('');sel.value=v||''}
+function cats(){$('#dc').value=cfg.disc;$('#cl').innerHTML=cfg.cats.map((c,i)=>`<div class="row" style="margin-top:6px;align-items:center"><span>${esc(c)}</span><button class="sec sm fit" data-r="${i}">Renombrar</button><button class="sec sm fit" data-d="${i}">Quitar</button></div>`).join('');fillCats($('#ct'),cfg.last);fillCats($('#fc'),'',1)}
+$('#dc').onchange=e=>{cfg.disc=+e.target.value||0;sv()};
+function addCat(n){n=(n||'').trim();if(!n)return;if(!cfg.cats.includes(n)){cfg.cats.push(n);sv()}cfg.last=n;cats();return n}
+$('#addc').onclick=()=>addCat(prompt('Nombre de la nueva categoría'));$('#ac').onclick=()=>{addCat($('#nc').value);$('#nc').value=''};
+$('#cl').onclick=async e=>{const r=e.target.dataset.r,d=e.target.dataset.d;
+ if(r!=null){const o=cfg.cats[r],n=(prompt('Nuevo nombre',o)||'').trim();if(!n||n==o)return;for(const p of await all())if(p.cat==o){p.cat=n;p.dirty=true;await put(p)}cfg.cats[r]=n;sv();cats();sync()}
+ if(d!=null){const o=cfg.cats[d];if(!confirm(`¿Quitar "${o}"? Sus productos pasarán a "General".`))return;if(o=='General')return msg('"General" no se puede quitar');for(const p of await all())if(p.cat==o){p.cat='General';p.dirty=true;await put(p)}cfg.cats.splice(d,1);sv();cats();sync()}};
+// ---- captura
+let cur=null,xs=[],dirty=false;
+async function shrink(file,max,q){const b=await createImageBitmap(file,{imageOrientation:'from-image'}),s=Math.min(1,max/Math.max(b.width,b.height)),c=document.createElement('canvas');c.width=Math.round(b.width*s);c.height=Math.round(b.height*s);const g=c.getContext('2d');g.imageSmoothingQuality='high';g.drawImage(b,0,0,c.width,c.height);return new Promise(r=>c.toBlob(r,'image/jpeg',q))}
+const IN=f=>shrink(f,1600,.92);
+function ths(el,bl,rm){el.innerHTML=bl.map((b,i)=>`<span><img src="${URL.createObjectURL(b)}" alt="">${rm?`<b data-x="${i}">✕</b>`:''}</span>`).join('')}
+async function pick(file){if(!file)return;cur=await IN(file);xs=[];ths($('#xt'),xs,1);$('#prev').src=URL.createObjectURL(cur);$('#f').classList.remove('hide');dirty=false;['nm','cd','pu','pm','bp','bu'].forEach(i=>$('#'+i).value='');$('#bx').checked=false;$('#bxf').classList.add('hide');$('#or').value=cfg.ori;fillCats($('#ct'),cfg.last);$('#nm').focus()}
+$('#cam').onchange=e=>{pick(e.target.files[0]);e.target.value=''};$('#gal').onchange=e=>{pick(e.target.files[0]);e.target.value=''};
+$('#xin').onchange=async e=>{const f=e.target.files[0];e.target.value='';if(!f)return;if(xs.length>=5)return msg('Máximo 5 fotos extra');xs.push(await IN(f));ths($('#xt'),xs,1)};
+$('#xt').onclick=e=>{const i=e.target.dataset.x;if(i!=null){xs.splice(i,1);ths($('#xt'),xs,1)}};
+$('#bx').onchange=e=>$('#bxf').classList.toggle('hide',!e.target.checked);$('#ebx').onchange=e=>$('#ebf').classList.toggle('hide',!e.target.checked);
+$('#pm').oninput=()=>dirty=true;$('#pu').oninput=()=>{if(!dirty)$('#pm').value=$('#pu').value?r2($('#pu').value*(1-cfg.disc/100)):''};
+$('#cx').onclick=()=>{cur=null;$('#f').classList.add('hide')};
+$('#f').onsubmit=async e=>{e.preventDefault();const code=$('#cd').value.trim();if(code&&(await all()).some(p=>p.code==code))return msg('Ese código ya existe');
+ cfg.last=$('#ct').value;cfg.ori=$('#or').value;sv();const bx=$('#bx').checked;
+ await put({name:$('#nm').value.trim(),code,pu:+$('#pu').value,pm:+$('#pm').value,box:bx?{p:+$('#bp').value||0,u:+$('#bu').value||null}:null,ori:cfg.ori,cat:cfg.last,raws:[cur,...xs],imgs:[],status:'pending',ts:Date.now()});
+ cur=null;$('#f').classList.add('hide');msg('Guardado ✔ (procesando en segundo plano)');if($('#auto').checked)$('#cam').click();stat();work()};
+// ---- IA: quitar fondo → fondo blanco de estudio
+let rb;async function clean(blob,ori){rb=rb||await import('https://cdn.jsdelivr.net/npm/@imgly/background-removal@1.5.5/+esm');
+ const bm=await createImageBitmap(await rb.removeBackground(blob,{model:'isnet',output:{format:'image/png',quality:1}})),W=bm.width,H=bm.height,N=W*H,c0=document.createElement('canvas');c0.width=W;c0.height=H;const g=c0.getContext('2d',{willReadFrequently:true});g.drawImage(bm,0,0);
+ const im=g.getImageData(0,0,W,H),d=im.data;
+ // 1) máscara: contraste (quita halos), erosión 1px y suavizado de borde
+ let a=new Uint8Array(N);for(let i=0;i<N;i++){let t=(d[i*4+3]-45)/160;t=t<0?0:t>1?1:t;a[i]=255*t*t*(3-2*t)}
+ const e=new Uint8Array(a);for(let y=1;y<H-1;y++)for(let x=1;x<W-1;x++){const i=y*W+x;e[i]=Math.min(a[i],a[i-1],a[i+1],a[i-W],a[i+W])}
+ for(let y=1;y<H-1;y++)for(let x=1;x<W-1;x++){const i=y*W+x;a[i]=(4*e[i]+e[i-1]+e[i+1]+e[i-W]+e[i+W])>>3}
+ // 2) color: niveles automáticos + un poco de viveza
+ const h=new Uint32Array(256);let n=0;for(let i=0;i<N;i++)if(a[i]>240){h[(d[i*4]*77+d[i*4+1]*150+d[i*4+2]*29)>>8]++;n++}
+ let lo=0,hi=255,s=0;if(n>500){while(lo<200&&s+h[lo]<n*.01)s+=h[lo++];s=0;while(hi>80&&s+h[hi]<n*.01)s+=h[hi--]}
+ const lo2=lo*.8,gn=Math.min(1.3,Math.max(1,245/Math.max(80,hi-lo2)));
+ let x0=W,y0=H,x1=0,y1=0;
+ for(let i=0;i<N;i++){const k=i*4;let r=(d[k]-lo2)*gn,gg=(d[k+1]-lo2)*gn,b=(d[k+2]-lo2)*gn;const l=r*.3+gg*.59+b*.11;d[k]=l+(r-l)*1.08;d[k+1]=l+(gg-l)*1.08;d[k+2]=l+(b-l)*1.08;d[k+3]=a[i];
+  if(a[i]>25){const x=i%W,y=(i/W)|0;if(x<x0)x0=x;if(x>x1)x1=x;if(y<y0)y0=y;if(y>y1)y1=y}}
+ g.putImageData(im,0,0);if(x1<=x0||y1<=y0){x0=0;y0=0;x1=W-1;y1=H-1}
+ // 3) lienzo final según orientación, producto centrado con margen y sombra de contacto
+ const w=x1-x0+1,hh=y1-y0+1,CW=ori=='horizontal'?1250:1000,CH=ori=='horizontal'?1000:1250,sc=Math.min(CW*.86/w,CH*.84/hh),dw=w*sc,dh=hh*sc,px=(CW-dw)/2,py=(CH-dh)/2-CH*.012;
+ const c=document.createElement('canvas');c.width=CW;c.height=CH;const x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,CW,CH);
+ x.save();x.translate(CW/2,py+dh-dh*.01);x.scale(1,.1);const rg=x.createRadialGradient(0,0,0,0,0,dw*.5);rg.addColorStop(0,'rgba(0,0,0,.28)');rg.addColorStop(1,'rgba(0,0,0,0)');x.fillStyle=rg;x.beginPath();x.arc(0,0,dw*.5,0,7);x.fill();x.restore();
+ x.imageSmoothingQuality='high';x.drawImage(c0,x0,y0,w,hh,px,py,dw,dh);return new Promise(r=>c.toBlob(r,'image/jpeg',.92))}
+let busy=false;async function work(){if(busy)return;busy=true;
+ try{for(const p of (await all()).filter(pend)){stat(1);try{const imgs=[...(p.imgs||[])];for(let i=0;i<p.raws.length;i++)if(p.raws[i])imgs[i]=await clean(p.raws[i],p.ori);const n=await get(p.id);if(!n)continue;Object.assign(n,{imgs,raws:[],status:'done',dirty:true,imgNew:true,v:(n.v||0)+1});await put(n);sync()}catch(err){console.error(err);const n=await get(p.id);if(n){n.status='error';await put(n)}msg('Error al quitar el fondo. Revisa tu internet.')}stat()}}finally{busy=false;stat()}}
+async function stat(w){const l=await all(),p=l.filter(pend).length,e=l.filter(x=>x.status=='error').length,d=l.filter(x=>x.dirty&&x.status=='done').length;$('#stat').textContent=`${l.length} productos`+(p?` · procesando ${p}`:'')+(e?` · ${e} con error`:'')+(L()&&d?` · ☁️ ${d} por subir`:'');if(!$('#t-lst').classList.contains('hide')&&!w)render()}
+// ---- lista
+let shown=40;const url=p=>URL.createObjectURL((p.imgs&&p.imgs[0])||(p.raws&&p.raws[0]));
+async function render(reset){if(reset)shown=40;const q=$('#q').value.toLowerCase(),c=$('#fc').value,l=(await all()).filter(p=>(!c||p.cat==c)&&(p.name.toLowerCase().includes(q)||(p.code||'').toLowerCase().includes(q))).sort((a,b)=>b.ts-a.ts);
+ $('#g').innerHTML=l.slice(0,shown).map(p=>`<div class="it" data-i="${p.id}"><img loading="lazy" src="${url(p)}" alt=""><div><b>${esc(p.name)}</b>${p.code?`<small>Cód. ${esc(p.code)}</small><br>`:''}S/ ${p.pu.toFixed(2)} · mayor S/ ${p.pm.toFixed(2)}${p.box?`<br>Caja S/ ${p.box.p.toFixed(2)}`:''}<br><span class="tag ${p.status=='error'?'er':''}">${esc(p.cat)}${p.imgs&&p.imgs.length>1?' · 📷'+p.imgs.length:''}${pend(p)?' · procesando':p.status=='error'?' · error':''}</span></div></div>`).join('')||'<p>No hay productos todavía.</p>';$('#more').classList.toggle('hide',l.length<=shown)}
+$('#q').oninput=()=>render(1);$('#fc').onchange=()=>render(1);$('#more').onclick=()=>{shown+=40;render()};
+let eid;async function fillEd(p){$('#eimg').src=url(p);const im=p.imgs||[];ths($('#eth'),im,0);$('#ex2').classList.toggle('hide',im.length<2);$('#est').textContent=pend(p)?'⏳ Procesando fotos…':p.status=='error'?'⚠️ No se pudo quitar el fondo. Cambia la foto.':''}
+$('#g').onclick=async e=>{const t=e.target.closest('.it');if(!t)return;const p=await get(+t.dataset.i);eid=p.id;await fillEd(p);
+ $('#en').value=p.name;$('#ek').value=p.code||'';$('#eu').value=p.pu;$('#em').value=p.pm;$('#ebx').checked=!!p.box;$('#ebf').classList.toggle('hide',!p.box);$('#ebp').value=p.box?p.box.p:'';$('#ebu').value=p.box&&p.box.u||'';fillCats($('#ec'),p.cat);$('#ed').showModal()};
+$('#ecl').onclick=()=>$('#ed').close();
+$('#ef').onsubmit=async e=>{e.preventDefault();const p=await get(eid),code=$('#ek').value.trim();if(code&&(await all()).some(o=>o.id!=eid&&o.code==code))return msg('Ese código ya existe');
+ Object.assign(p,{name:$('#en').value.trim(),code,pu:+$('#eu').value,pm:+$('#em').value,box:$('#ebx').checked?{p:+$('#ebp').value||0,u:+$('#ebu').value||null}:null,cat:$('#ec').value,dirty:true,v:(p.v||0)+1});await put(p);sync();$('#ed').close();render();work()};
+$('#edl').onclick=async()=>{if(confirm('¿Eliminar este producto?')){const o=await get(eid);if(o.rid){cfg.del.push({rid:o.rid,paths:o.paths||[]});sv()}await del(eid);sync();$('#ed').close();stat()}};
+async function addRaw(e,main){const f=e.target.files[0];e.target.value='';if(!f)return;const p=await get(eid),b=await IN(f);p.raws=p.raws||[];
+ if(main){p.raws[0]=b;p.imgs=p.imgs||[]}else{const i=Math.max((p.imgs||[]).length,p.raws.length);if(i>=6)return msg('Máximo 6 fotos');p.raws[i]=b}
+ for(let i=0;i<p.raws.length;i++)p.raws[i]=p.raws[i]||null;p.status='pending';await put(p);await fillEd(p);msg('Procesando foto…');stat();work()}
+$('#ef2').onchange=e=>addRaw(e,1);$('#ef3').onchange=e=>addRaw(e,0);
+$('#ex2').onclick=async()=>{const p=await get(eid);p.imgs=p.imgs.slice(0,1);p.dirty=p.imgNew=true;p.v=(p.v||0)+1;await put(p);await fillEd(p);sync()};
+// ---- respaldo
+const b64=b=>new Promise(r=>{const f=new FileReader;f.onload=()=>r(f.result);f.readAsDataURL(b)});
+$('#ex').onclick=async()=>{msg('Preparando respaldo…');const l=await all();for(const p of l)for(const k of['imgs','raws'])if(p[k])p[k]=await Promise.all(p[k].map(b=>b&&b64(b)));
+ const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify({cfg,l})],{type:'application/json'}));a.download='respaldo-wiliams-'+new Date().toISOString().slice(0,10)+'.json';a.click()};
+$('#im').onchange=async e=>{const f=e.target.files[0];if(!f)return;const j=JSON.parse(await f.text());for(const p of j.l){delete p.id;for(const k of['imgs','raws'])if(p[k])p[k]=await Promise.all(p[k].map(async u=>u&&await(await fetch(u)).blob()));for(const k of['img','raw'])if(p[k])p[k]=await(await fetch(p[k])).blob();await put(mig(p))}
+ j.cfg.cats.forEach(c=>cfg.cats.includes(c)||cfg.cats.push(c));sv();cats();stat();work();msg('Respaldo restaurado')};
+// ---- nube (Supabase)
+const SBU=()=>localStorage.sbu||'',SBK=()=>localStorage.sbk||'',L=()=>JSON.parse(localStorage.ses||'null'),pub=p=>SBU()+'/storage/v1/object/public/fotos/'+p;
+const keep=j=>localStorage.ses=JSON.stringify({at:j.access_token,rt:j.refresh_token,exp:Date.now()+j.expires_in*1000});
+async function login(e,p){const r=await fetch(SBU()+'/auth/v1/token?grant_type=password',{method:'POST',headers:{apikey:SBK(),'Content-Type':'application/json'},body:JSON.stringify({email:e,password:p})});if(!r.ok)throw new Error('Datos incorrectos. Revisa correo, contraseña, URL y llave.');keep(await r.json())}
+async function tok(){let s=L();if(!s)return null;if(Date.now()>s.exp-60000){const r=await fetch(SBU()+'/auth/v1/token?grant_type=refresh_token',{method:'POST',headers:{apikey:SBK(),'Content-Type':'application/json'},body:JSON.stringify({refresh_token:s.rt})});if(!r.ok){if(r.status<500)localStorage.removeItem('ses');return null}keep(await r.json())}return L().at}
+async function api(m,path,body){const t=await tok();if(!t)throw new Error('sin sesión');const r=await fetch(SBU()+path,{method:m,headers:{apikey:SBK(),Authorization:'Bearer '+t,'Content-Type':'application/json',Prefer:'return=representation'},body:body?JSON.stringify(body):undefined});if(!r.ok)throw new Error(r.status+' '+await r.text());return r.json()}
+async function up(path,blob){const t=await tok(),r=await fetch(SBU()+'/storage/v1/object/fotos/'+path,{method:'POST',headers:{apikey:SBK(),Authorization:'Bearer '+t,'Content-Type':'image/jpeg','x-upsert':'true'},body:blob});if(!r.ok)throw new Error('foto '+r.status)}
+async function rm(path){const t=await tok();await fetch(SBU()+'/storage/v1/object/fotos/'+path,{method:'DELETE',headers:{apikey:SBK(),Authorization:'Bearer '+t}})}
+let syncing=false,again=false;
+async function sync(){if(!L()||!navigator.onLine)return;if(syncing){again=true;return}syncing=true;
+ try{for(const d of [...cfg.del]){await api('DELETE','/rest/v1/productos?id=eq.'+d.rid);for(const x of d.paths||[])await rm(x);cfg.del.splice(cfg.del.indexOf(d),1);sv()}
+  for(const p of (await all()).filter(p=>p.status=='done'&&p.dirty&&!pend(p))){const old=p.paths||[];let paths=old;if(p.imgNew||!old.length){paths=p.imgs.map(()=>crypto.randomUUID()+'.jpg');for(let i=0;i<paths.length;i++)await up(paths[i],p.imgs[i])}
+   const row={nombre:p.name,categoria:p.cat,codigo:p.code||null,precio_unidad:p.pu,precio_mayor:p.pm,precio_docena:r2(p.pm*12),precio_caja:p.box?p.box.p:null,unidades_caja:p.box?p.box.u:null,orientacion:p.ori||'vertical',foto_path:paths[0],foto_url:pub(paths[0]),fotos:paths.slice(1).map(x=>({path:x,url:pub(x)})),actualizado:new Date().toISOString()};let rid=p.rid;
+   if(rid)await api('PATCH','/rest/v1/productos?id=eq.'+rid,row);else rid=(await api('POST','/rest/v1/productos',row))[0].id;
+   if(paths!==old)for(const x of old)await rm(x).catch(()=>{});
+   const n=await get(p.id);if(!n)continue;Object.assign(n,{rid,paths});if(n.v==p.v){n.dirty=false;n.imgNew=false}await put(n);stat()}
+ }catch(e){console.warn(e);msg('No se pudo subir a la nube. Se reintentará.')}finally{syncing=false;if(again){again=false;sync()}}}
+async function pull(){if(!L()||!navigator.onLine)return;try{let rows=[];for(let o=0;;o+=1000){const j=await api('GET','/rest/v1/productos?select=*&order=id&limit=1000&offset='+o);rows=rows.concat(j);if(j.length<1000)break}
+ const have=new Set((await all()).map(p=>p.rid).filter(Boolean));let n=0;
+ for(const r of rows){if(!cfg.cats.includes(r.categoria))cfg.cats.push(r.categoria);if(have.has(r.id))continue;try{const ex=r.fotos||[],us=[r.foto_url,...ex.map(x=>x.url)],imgs=await Promise.all(us.map(async u=>(await fetch(u)).blob()));
+  await put({name:r.nombre,code:r.codigo||'',pu:+r.precio_unidad,pm:+(r.precio_mayor??r2(r.precio_docena/12)),box:r.precio_caja!=null?{p:+r.precio_caja,u:r.unidades_caja}:null,ori:r.orientacion||'vertical',cat:r.categoria,imgs,raws:[],status:'done',rid:r.id,paths:[r.foto_path,...ex.map(x=>x.path)],ts:Date.parse(r.creado)||Date.now(),v:0});n++}catch{}}
+ sv();cats();stat();if(n)msg(n+' productos recuperados de la nube')}catch(e){console.warn(e)}}
+function cloudUI(){const s=L();$('#cloud').innerHTML=s?`<p style="margin:4px 0 8px;font-size:14px">✅ Conectado como ${esc(localStorage.sbe||'')}. Tus productos se suben solos cuando hay internet.</p><button id="sy" class="sec">Sincronizar ahora</button><button id="lo" class="sec" style="margin-top:8px">Cerrar sesión</button>`
+ :`<p style="margin:4px 0;font-size:14px">Pega los datos de tu proyecto de Supabase e inicia sesión.</p><label for="su">Dirección del proyecto (URL)</label><input id="su" value="${esc(SBU())}" placeholder="https://xxxx.supabase.co"><label for="sk">Llave pública (anon o publishable)</label><input id="sk" value="${esc(SBK())}"><label for="se">Correo del administrador</label><input id="se" type="email" value="${esc(localStorage.sbe||'')}"><label for="sp">Contraseña</label><input id="sp" type="password"><button id="li" style="margin-top:10px">Conectar</button>`}
+$('#cloud').onclick=async e=>{const i=e.target.id;
+ if(i=='li'){try{localStorage.sbu=$('#su').value.trim().replace(/\/+$/,'');localStorage.sbk=$('#sk').value.trim();localStorage.sbe=$('#se').value.trim();await login(localStorage.sbe,$('#sp').value);cloudUI();msg('Conectado ✔');await pull();sync()}catch(x){msg(x.message)}}
+ if(i=='sy'){msg('Sincronizando…');await pull();sync()}
+ if(i=='lo'){localStorage.removeItem('ses');cloudUI();stat()}};
+addEventListener('online',sync);setInterval(sync,60000);
+(async()=>{db=await op();for(const p of await all())if(!p.imgs)await put(mig(p));cats();stat();work();cloudUI();pull().then(sync);if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js');navigator.storage?.persist?.()})();
+</script></body></html>
